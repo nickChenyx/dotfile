@@ -1,0 +1,89 @@
+let mapleader=","
+
+""" plugin
+set easymotion
+" plug for comment
+" commands: gcc, gc + motion, v_gc
+set commentary
+" ideavim 0.65 support
+" https://github.com/JetBrains/ideavim/wiki/NERDTree-support
+set NERDTree
+" https://github.com/JetBrains/ideavim/wiki/Emulated-plugins#multiple-cursors
+" resolve mac optional key workable https://stackoverflow.com/questions/55202799/ideavim-multi-cursor-usage
+set multiple-cursors
+" https://github.com/JetBrains/ideavim/wiki/Emulated-plugins#highlightedyank
+set highlightedyank
+"""
+
+""" plugin setting
+nmap ss <Plug>(easymotion-s2)
+nmap <leader>ff :NERDTreeFind<CR>
+nmap <leader>ft :NERDTreeToggle<CR>
+nmap <leader>f<space> :NERDTreeFocus<CR>
+"""
+
+set clipboard+=unnamed
+set hls
+
+" 设置行号
+set nu
+" 设置相对行号
+set relativenumber
+" yiw 的时候 短暂的高亮复制 的对象
+set highlightedyank
+
+nnoremap <leader>ee :e ~/.ideavimrc<CR>
+
+" ide action mapping
+nnoremap <C-m> :action FileStructurePopup<CR>
+" function j(up) k(down)
+nnoremap fj :action MethodDown<CR>
+nnoremap fk :action MethodUp<CR>
+nnoremap <leader>rf :action Refactorings.QuickListPopupAction<CR>
+nnoremap <leader>ru :action Rerun<CR>
+
+nnoremap <leader>ge :action GotoNextError<CR>
+nnoremap <leader>gpe :action GotoPreviousError<CR>
+
+" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
+map <space> /
+map <C-space> ?
+
+" Remap VIM 0 to first non-blank character
+map 0 ^
+
+" jump cursor to last Insert mode exit.
+nmap <S-j> `^
+
+" delete without yank
+nnoremap <leader>d \"_d
+xnoremap <leader>d \"_d
+
+" yank with register
+nnoremap <leader>ay \"ay
+vnoremap <leader>ay \"ay
+nnoremap <leader>by \"by
+vnoremap <leader>by \"by
+
+" yank&paste fast to register a & p
+nnoremap ta \"ayiw
+nnoremap pa \"ap
+nnoremap tb \"byiw
+nnoremap pb \"bp
+
+" bookmark
+nnoremap m` :action ToggleBookmark<CR>
+nnoremap ma :action ToggleBookmark0<CR>
+nnoremap `a :action GotoBookmark0<CR>
+nnoremap mb :action ToggleBookmark1<CR>
+nnoremap `b :action GotoBookmark1<CR>
+nnoremap mc :action ToggleBookmark2<CR>
+nnoremap `c :action GotoBookmark2<CR>
+
+nnoremap ms :action ShowBookmarks<CR>
+
+" TODO 修复 repeated 存在的情况处理
+vnoremap <leader>pf :'<,'>s/\(\s*\)\(repeated\)\?\([0-9A-z.]*\)\s*\(\w*\)\s*=\s*\(\d*\)/\1\5: \2 \3 \4<CR>:'<,'>s/int64/i64<CR>:'<,'>s/int32/i32<CR>:'<,'>s/pb_base/base/g<CR>:'<,'>s/BaseReq/Base/g<CR>:'<,'>s/^message/struct<CR>
+
+" 添加 struct 的 json tag
+vnoremap <leader>ff :'<,'>s/\W\+\(\w\+\)\W\+\(\w\+\)/\1 \2 `json:"\l\1"`/g<CR>
